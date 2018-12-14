@@ -1,5 +1,5 @@
-# Quill
-Registration, for hackers!
+# This is a fork of Quill for Reality Virtually Hackathon
+Customized this for registration and team formation for our hackers!
 
 Quill is a registration system designed especially for hackathons. For hackers, it’s a clean and streamlined interface to submit registration and confirmation information. For hackathon organizers, it’s an easy way to manage applications, view registration stats, and more!
 
