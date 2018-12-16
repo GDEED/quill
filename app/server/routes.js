@@ -4,12 +4,12 @@ module.exports = function(app) {
 
   // Application ------------------------------------------
   app.get('/', function(req, res){
-    res.sendFile('/app/client/index.html', {"root": '.'});
+    res.sendFile('app/client/index.html', {"root": '.'});
   });
 
   // Wildcard all other GET requests to the angular app
   // app.get('*', function(req, res){
-  //   res.sendFile('/app/client/index.html', {"root": '.'});
+  //   res.sendFile('app/client/index.html', {"root": '.'});
   // });
 
 };
