@@ -8,8 +8,8 @@ module.exports = function(app) {
   });
 
   // Wildcard all other GET requests to the angular app
-  app.get('*', function(req, res){
-    res.sendFile('/app/client/index.html', {"root": '.'});
-  });
+  // app.get('*', function(req, res){
+  //   res.sendFile('/app/client/index.html', {"root": '.'});
+  // });
 
 };
