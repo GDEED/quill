@@ -3,6 +3,7 @@
   "description": "mean stack registration system",
   "version": "0.0.1",
   "private": "true",
+  "main": "app.js",
   "dependencies": {
     "angular": "^1.7.5",
     "angular-ui-router": "^1.0.20",
@@ -37,7 +38,8 @@
     "dev": "nodemon app.js",
     "watch": "gulp server",
     "prod": "gulp build && node app.js",
-    "config": "cp .env.config .env"
+    "config": "cp .env.config .env",
+    "postinstall": "ng build --aot --prod"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
