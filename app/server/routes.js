@@ -7,8 +7,6 @@ module.exports = function(app) {
   //   res.sendFile('/app/client/index.html', {"root": '.'});
   // });
 
-  app.use('/dist', express.static(path.join(__dirname, 'dist')));
-
   // Wildcard all other GET requests to the angular app
   // app.get('*', function(req, res){
   //   res.sendFile('/app/client/index.html', {"root": '.'});
