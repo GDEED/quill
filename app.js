@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 
 app.use(methodOverride());
 
-app.use('/app', express.static(__dirname + 'client'));
+app.use('/app', express.static(__dirname + '/app/client'));
 // app.use('/dist', express.static(__dirname + 'dist'));
 
 // Routers =====================================================================
