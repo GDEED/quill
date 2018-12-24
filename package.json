@@ -49,8 +49,7 @@
     "dev": "nodemon app.js",
     "watch": "gulp server",
     "prod": "gulp build && node app.js",
-    "config": "cp .env.config .env",
-    "postinstall": "gulp build && node app.js"
+    "config": "cp .env.config .env"
   },
   "devDependencies": {
       "gulp": "^3.9.1",
