@@ -15,6 +15,17 @@
     "dotenv": "^6.1.0",
     "email-templates": "^5.0.2",
     "express": "^4.16.4",
+
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-ng-annotate": "^2.1.0",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "nodemon": "^1.18.7",
+
     "gulp-buffer": "0.0.2",
     "gulp-tap": "^1.0.1",
     "jquery": "^3.3.1",
@@ -35,22 +46,22 @@
   "scripts": {
     "mongo": "mongod --dbpath db",
     "start": "node app.js",
-    "postinstall": "gulp watch",
     "dev": "nodemon app.js",
     "watch": "gulp server",
     "prod": "gulp build && node app.js",
-    "config": "cp .env.config .env"
+    "config": "cp .env.config .env",
+    "postinstall": "gulp build && node app.js"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "^4.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-ng-annotate": "^2.1.0",
-    "gulp-nodemon": "^2.4.2",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
-    "nodemon": "^1.18.7"
+      "gulp": "^3.9.1",
+      "gulp-clean-css": "^4.0.0",
+      "gulp-concat": "^2.6.1",
+      "gulp-ng-annotate": "^2.1.0",
+      "gulp-nodemon": "^2.4.2",
+      "gulp-sass": "^4.0.2",
+      "gulp-sourcemaps": "^2.6.4",
+      "gulp-uglify": "^3.0.1",
+      "nodemon": "^1.18.7",
   },
   "engines": {
     "node": "11.2.0",
