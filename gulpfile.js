@@ -23,7 +23,9 @@ function swallowError (error) {
     this.emit('end');
 }
 
-gulp.tasks('heroku:prod', [default]);
+gulp.task('heroku:prod', function(){
+  runSeq('clean', 'build', 'minify')
+})
 
 gulp.task('default', function(){
   console.log('yo. use gulp watch or something');
