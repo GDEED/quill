@@ -11,7 +11,7 @@ var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
-var runSeq = require('run-sequence')
+var runSeq = require('run-sequence');
 
 var environment = process.env.NODE_ENV;
 

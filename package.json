@@ -15,7 +15,6 @@
     "dotenv": "^6.1.0",
     "email-templates": "^5.0.2",
     "express": "^4.16.4",
-
     "gulp": "^3.9.1",
     "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",
@@ -25,7 +24,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
     "nodemon": "^1.18.7",
-
+    "run-sequence": "^2.2.1",
     "gulp-buffer": "0.0.2",
     "gulp-tap": "^1.0.1",
     "jquery": "^3.3.1",
@@ -54,15 +53,16 @@
     "postinstall": "gulp build"
   },
   "devDependencies": {
-      "gulp": "^3.9.1",
-      "gulp-clean-css": "^4.0.0",
-      "gulp-concat": "^2.6.1",
-      "gulp-ng-annotate": "^2.1.0",
-      "gulp-nodemon": "^2.4.2",
-      "gulp-sass": "^4.0.2",
-      "gulp-sourcemaps": "^2.6.4",
-      "gulp-uglify": "^3.0.1",
-      "nodemon": "^1.18.7"
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-ng-annotate": "^2.1.0",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "nodemon": "^1.18.7",
+    "run-sequence": "^2.2.1"
   },
   "engines": {
     "node": "11.2.0",
