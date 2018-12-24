@@ -11,6 +11,7 @@ var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
+var runSeq = require('run-sequence')
 
 var environment = process.env.NODE_ENV;
 
@@ -25,6 +26,10 @@ function swallowError (error) {
 gulp.task('default', function(){
   console.log('yo. use gulp watch or something');
 });
+
+gulp.task('heroku:production', function(){
+  runSeq('clean', 'build', 'minify')
+})
 
 gulp.task('js', function () {
   var b = browserify({
