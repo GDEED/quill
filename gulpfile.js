@@ -23,13 +23,11 @@ function swallowError (error) {
     this.emit('end');
 }
 
+gulp.tasks('heroku:prod', [default]);
+
 gulp.task('default', function(){
   console.log('yo. use gulp watch or something');
 });
-
-gulp.task('heroku:production', function(){
-  runSeq('clean', 'build', 'minify')
-})
 
 gulp.task('js', function () {
   var b = browserify({
