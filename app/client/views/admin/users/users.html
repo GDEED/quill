@@ -36,7 +36,7 @@
       <div class="ui long user modal">
         <i class="close icon"></i>
         <div class="header">
-          {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+          {{selectedUser.profile.firstname ? selectedUser.profile.firstname : selectedUser.email}}
           <span
             ng-show="selectedUser.admin">
             (Admin)
@@ -93,12 +93,12 @@
           <tr>
             <th>Name</th>
             <th>E-mail address</th>
-            <th>School</th>
-            <th>Grad</th>
-            <th>V/S/A/C</th>
-            <th>Host</th>
-            <th>$</th>
-            <th></th>
+            <th>Role</th>
+            <th>Dietary</th>
+            <th>Verified/Submitted/Applied/Confirmed</th>
+            <!-- <th>Host</th>
+            <th>$</th> -->
+            <th>Full Profile</th>
             <th></th>
           </tr>
         </thead>
@@ -109,16 +109,16 @@
             ng-class="rowClass(user)">
             <td>
               <strong>
-                {{user.profile.name}}
+                {{user.profile.firstname + " " + user.profile.lastname}}
                 &nbsp;
 
               </strong>
             </td>
             <td>{{user.email}}</td>
-            <td>{{user.profile.school}}</td>
+            <td>{{user.profile.description}}</td>
             <td
               class="collapsing">
-              {{user.profile.graduationYear}}
+              {{user.confirmation.dietaryRestrictions}}
             </td>
             <td
               class="collapsing">
@@ -173,28 +173,7 @@
 
             </td>
 
-            <!-- Host -->
-            <td
-              class="collapsing">
-
-              <span ng-if="user.status.confirmed">
-                <i
-                  ng-if="user.confirmation.hostNeededFri"
-                  class="home icon">
-                </i>
-                <i
-                  ng-if="!user.confirmation.hostNeededFri && user.confirmation.hostNeededSat"
-                  class="no icon">
-                </i>
-                <i
-                  ng-if="user.confirmation.hostNeededSat"
-                  class="home icon">
-                </i>
-              </span>
-
-            </td>
-
-            <td
+            <!-- <td
               class="collapsing">
               <span ng-if="user.status.confirmed">
                 <i
@@ -206,7 +185,7 @@
                   class="green money icon">
                 </i>
               </span>
-            </td>
+            </td> -->
 
             <td
               class="collapsing">

@@ -70,7 +70,7 @@ angular.module('reg')
         if (!user.status.checkedIn){
           swal({
             title: "Whoa, wait a minute!",
-            text: "You are about to check in " + user.profile.name + "!",
+            text: "You are about to check in " + user.profile.firstname + " " + user.profile.lastname + "!",
             icon: "warning",
             buttons: {
               cancel: {
@@ -96,7 +96,7 @@ angular.module('reg')
               .checkIn(user._id)
               .then(response => {
                 $scope.users[index] = response.data;
-                swal("Accepted", response.data.profile.name + " has been checked in.", "success");
+                swal("Accepted", response.data.profile.firstname + " " + response.data.profile.lastname + " has been checked in.", "success");
               });
           });
         } else {
@@ -104,7 +104,7 @@ angular.module('reg')
             .checkOut(user._id)
             .then(response => {
               $scope.users[index] = response.data;
-              swal("Accepted", response.data.profile.name + ' has been checked out.', "success");
+              swal("Accepted", response.data.profile.firstname + " " + response.data.profile.lastname + ' has been checked out.', "success");
             });
         }
       };
@@ -131,7 +131,7 @@ angular.module('reg')
           },
           dangerMode: true,
           icon: "warning",
-          text: "You are about to accept " + user.profile.name + "!",
+          text: "You are about to accept " + user.profile.firstname + " " + user.profile.lastname + "!",
           title: "Whoa, wait a minute!"
         }).then(value => {
           if (!value) {
@@ -167,7 +167,7 @@ angular.module('reg')
               .admitUser(user._id)
               .then(response => {
                 $scope.users[index] = response.data;
-                swal("Accepted", response.data.profile.name + ' has been admitted.', "success");
+                swal("Accepted", response.data.profile.firstname + " " + response.data.profile.lastname + ' has been admitted.', "success");
               });
           });
         });
@@ -179,7 +179,7 @@ angular.module('reg')
         if (!user.admin){
           swal({
             title: "Whoa, wait a minute!",
-            text: "You are about make " + user.profile.name + " an admin!",
+            text: "You are about make " + user.profile.firstname + " " + user.profile.lastname + " an admin!",
             icon: "warning",
             buttons: {
               cancel: {
@@ -204,7 +204,7 @@ angular.module('reg')
               .makeAdmin(user._id)
               .then(response => {
                 $scope.users[index] = response.data;
-                swal("Made", response.data.profile.name + ' an admin.', "success");
+                swal("Made", response.data.profile.firstname + " " + response.data.profile.lastname + ' an admin.', "success");
               });
             }
           );
@@ -213,7 +213,7 @@ angular.module('reg')
             .removeAdmin(user._id)
             .then(response => {
               $scope.users[index] = response.data;
-              swal("Removed", response.data.profile.name + ' as admin', "success");
+              swal("Removed", response.data.profile.firstname + " " + response.data.profile.lastname + ' as admin', "success");
             });
         }
       };
@@ -273,19 +273,35 @@ angular.module('reg')
             fields: [
               {
                 name: 'Name',
-                value: user.profile.name
+                value: user.profile.firstname + " " + user.profile.lastname
+              },{
+                name: 'Current Location',
+                value: user.profile.location
+              },{
+                name: 'Student',
+                value: user.profile.student,
+                type: 'boolean'
               },{
                 name: 'Gender',
                 value: user.profile.gender
               },{
-                name: 'School',
-                value: user.profile.school
-              },{
-                name: 'Graduation Year',
-                value: user.profile.graduationYear
+                name: 'Race/Ethnicity',
+                value: user.profile.ethnicity
               },{
                 name: 'Description',
                 value: user.profile.description
+              },{
+                name: 'Github',
+                value: user.confirmation.github
+              },{
+                name: 'Twitter',
+                value: user.confirmation.twitter
+              },{
+                name: 'Facebook',
+                value: user.confirmation.facebook
+              },{
+                name: 'Website',
+                value: user.confirmation.website
               },{
                 name: 'Essay',
                 value: user.profile.essay
@@ -296,70 +312,39 @@ angular.module('reg')
             fields: [
               {
                 name: 'Phone Number',
-                value: user.confirmation.phoneNumber
+                value: user.confirmation.phone
               },{
                 name: 'Dietary Restrictions',
                 value: user.confirmation.dietaryRestrictions.join(', ')
               },{
-                name: 'Shirt Size',
-                value: user.confirmation.shirtSize
-              },{
-                name: 'Major',
-                value: user.confirmation.major
-              },{
                 name: 'Github',
                 value: user.confirmation.github
               },{
-                name: 'Website',
-                value: user.confirmation.website
-              },{
-                name: 'Needs Hardware',
-                value: user.confirmation.wantsHardware,
-                type: 'boolean'
-              },{
-                name: 'Hardware Requested',
+                name: 'Equipment',
                 value: user.confirmation.hardware
               }
             ]
           },{
-            name: 'Hosting',
+            name: 'Logistics',
             fields: [
               {
-                name: 'Needs Hosting Friday',
-                value: user.confirmation.hostNeededFri,
+                name: 'Requires an invitation letter to obtain a visa',
+                value: user.confirmation.inviteNeeded,
                 type: 'boolean'
               },{
-                name: 'Needs Hosting Saturday',
-                value: user.confirmation.hostNeededSat,
+                name: 'I\'m local or I can share my room with another hacker',
+                value: user.confirmation.openRoom,
                 type: 'boolean'
               },{
-                name: 'Gender Neutral',
-                value: user.confirmation.genderNeutral,
+                name: 'I need help with childcare during the hackathon',
+                value: user.confirmation.childcare,
                 type: 'boolean'
-              },{
-                name: 'Cat Friendly',
-                value: user.confirmation.catFriendly,
-                type: 'boolean'
-              },{
-                name: 'Smoking Friendly',
-                value: user.confirmation.smokingFriendly,
-                type: 'boolean'
-              },{
-                name: 'Hosting Notes',
-                value: user.confirmation.hostNotes
               }
             ]
           },{
-            name: 'Travel',
+            name: 'Additional Info',
             fields: [
               {
-                name: 'Needs Reimbursement',
-                value: user.confirmation.needsReimbursement,
-                type: 'boolean'
-              },{
-                name: 'Received Reimbursement',
-                value: user.confirmation.needsReimbursement && user.status.reimbursementGiven
-              },{
                 name: 'Address',
                 value: user.confirmation.address ? [
                   user.confirmation.address.line1,

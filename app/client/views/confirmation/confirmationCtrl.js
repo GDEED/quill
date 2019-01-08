@@ -1,3 +1,4 @@
+const angular = require("angular");
 const swal = require('sweetalert');
 
 angular.module('reg')
@@ -6,58 +7,49 @@ angular.module('reg')
     '$rootScope',
     '$state',
     'currentUser',
-    'Utils',
+    'settings',
+    'Session',
     'UserService',
-    function($scope, $rootScope, $state, currentUser, Utils, UserService){
+    function($scope, $rootScope, $state, currentUser, settings, Session, UserService){
 
       // Set up the user
-      var user = currentUser.data;
-      $scope.user = user;
+      $scope.user = currentUser.data;
+      var userId = Session.getUserId()
 
-      $scope.pastConfirmation = Date.now() > user.status.confirmBy;
-
-      $scope.formatTime = Utils.formatTime;
+      $scope.pastConfirmation = Date.now() > settings.timeConfirm;
 
       _setupForm();
 
-      $scope.fileName = user._id + "_" + user.profile.name.split(" ").join("_");
+      $scope.fileName = userId + "_" + $scope.user.profile.firstname + "_" + $scope.user.profile.lastname;
 
       // -------------------------------
       // All this just for dietary restriction checkboxes fml
 
-      var dietaryRestrictions = {
-        'Vegetarian': false,
-        'Vegan': false,
-        'Halal': false,
-        'Kosher': false,
-        'Nut Allergy': false
+      $scope.rests = [
+        { name: 'None', selected: true },
+        { name: 'Gluten Free', selected: false },
+        { name: 'Lactose Intolerant', selected: false },
+        { name: 'Vegetarian', selected: false },
+        { name: 'Vegan', selected: false }
+      ];
+      // Selected boxes
+      $scope.user.confirmation.dietaryRestrictions = [];
+      // Helper method to get selected boxes
+      $scope.selectedRests = function selectedRests() {
+        return filterFilter($scope.rests, { selected: true });
       };
-
-      if (user.confirmation.dietaryRestrictions){
-        user.confirmation.dietaryRestrictions.forEach(function(restriction){
-          if (restriction in dietaryRestrictions){
-            dietaryRestrictions[restriction] = true;
-          }
+      // Watch boxes for changes
+      $scope.$watch('rests|filter:{selected:true}', function (nv) {
+        $scope.user.confirmation.dietaryRestrictions = nv.map(function (rest) {
+          return rest.name;
         });
-      }
-
-      $scope.dietaryRestrictions = dietaryRestrictions;
+      }, true);
 
       // -------------------------------
 
       function _updateUser(e){
-        var confirmation = $scope.user.confirmation;
-        // Get the dietary restrictions as an array
-        var drs = [];
-        Object.keys($scope.dietaryRestrictions).forEach(function(key){
-          if ($scope.dietaryRestrictions[key]){
-            drs.push(key);
-          }
-        });
-        confirmation.dietaryRestrictions = drs;
-
         UserService
-          .updateConfirmation(user._id, confirmation)
+          .updateConfirmation(userId, $scope.user.confirmation)
           .then(response => {
             swal("Woo!", "You're confirmed!", "success").then(value => {
               $state.go("app.dashboard");
@@ -70,16 +62,8 @@ angular.module('reg')
       function _setupForm(){
         // Semantic-UI form validation
         $('.ui.form').form({
+          inline: true,
           fields: {
-            shirt: {
-              identifier: 'shirt',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please give us a shirt size!'
-                }
-              ]
-            },
             phone: {
               identifier: 'phone',
               rules: [
@@ -89,33 +73,24 @@ angular.module('reg')
                 }
               ]
             },
-            signatureLiability: {
-              identifier: 'signatureLiabilityWaiver',
+            line1: {
+              identifier: 'addressLine1',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter an address.'
+                }
+              ]
+            },
+            signatureRelease: {
+              identifier: 'signatureRelease',
               rules: [
                 {
                   type: 'empty',
                   prompt: 'Please type your digital signature.'
                 }
               ]
-            },
-            signaturePhotoRelease: {
-              identifier: 'signaturePhotoRelease',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
-                }
-              ]
-            },
-            signatureCodeOfConduct: {
-              identifier: 'signatureCodeOfConduct',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
-                }
-              ]
-            },
+            }
           }
         });
       }
@@ -123,7 +98,8 @@ angular.module('reg')
       $scope.submitForm = function(){
         if ($('.ui.form').form('is valid')){
           _updateUser();
+        } else {
+          swal("Uh oh!", "Please Fill The Required Fields", "error");
         }
       };
-
     }]);

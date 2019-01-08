@@ -7,44 +7,27 @@ var mongoose   = require('mongoose'),
 var profile = {
 
   // Basic info
-  name: {
-    type: String,
-    min: 1,
-    max: 100,
-  },
+  firstname: String,
+  lastname: String,
 
-  adult: {
+  student: {
     type: Boolean,
     required: true,
     default: false,
   },
 
-  school: {
-    type: String,
-    min: 1,
-    max: 150,
-  },
-
-  graduationYear: {
-    type: String,
-    enum: {
-      values: '2016 2017 2018 2019'.split(' '),
-    }
-  },
-
-  description: {
+  rvTeamName: {
     type: String,
     min: 0,
     max: 300
   },
 
-  essay: {
-    type: String,
-    min: 0,
-    max: 1500
-  },
+  location: String,
+  citizenship: String,
+  education: String,
+  occupation: String,
+  affiliation: String,
 
-  // Optional info for demographics
   gender: {
     type: String,
     enum : {
@@ -52,28 +35,50 @@ var profile = {
     }
   },
 
+  ethnicity: {
+    type: String,
+    enum : {
+      values: 'AI/A AS B HW/PI HS/LT W TWO N'.split(' ')
+    }
+  },
+
+  description: {
+    type: String,
+    enum : {
+      values: 'Developer Designer Graphic_Artist Sound/Video Business/Product_Management Domain_Expert Other'.split(' ')
+    }
+  },
+
+  github: String,
+  twitter: String,
+  facebook: String,
+  website: String,
+  personalApp: String,
+
+  essay: {
+    type: String,
+    min: 0,
+    max: 1500
+  },
+
+  experiences: [String],
+
+  referral: {
+    type: String,
+    enum: {
+      values: 'email RV2016 RV2017 facebook twitter group wordOfMouth'.split(' '),
+    }
+  },
+
+  referrerEmail: String,
+
 };
 
 // Only after confirmed
 var confirmation = {
-  phoneNumber: String,
+  phone: String,
   dietaryRestrictions: [String],
-  shirtSize: {
-    type: String,
-    enum: {
-      values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
-    }
-  },
-  wantsHardware: Boolean,
-  hardware: String,
 
-  major: String,
-  github: String,
-  twitter: String,
-  website: String,
-  resume: String,
-
-  needsReimbursement: Boolean,
   address: {
     name: String,
     line1: String,
@@ -83,20 +88,17 @@ var confirmation = {
     zip: String,
     country: String
   },
-  receipt: String,
 
-  hostNeededFri: Boolean,
-  hostNeededSat: Boolean,
-  genderNeutral: Boolean,
-  catFriendly: Boolean,
-  smokingFriendly: Boolean,
-  hostNotes: String,
+  github: String,
+  hardware: String,
 
-  notes: String,
+  inviteNeeded: Boolean,
+  openRoom: Boolean,
+  childcare: Boolean,
 
-  signatureLiability: String,
-  signaturePhotoRelease: String,
-  signatureCodeOfConduct: String,
+  signatureRelease: String,
+
+  notes: String
 };
 
 var status = {
@@ -330,10 +332,8 @@ schema.statics.getByToken = function(token, callback){
 
 schema.statics.validateProfile = function(profile, cb){
   return cb(!(
-    profile.name.length > 0 &&
-    profile.adult &&
-    profile.school.length > 0 &&
-    ['2016', '2017', '2018', '2019'].indexOf(profile.graduationYear) > -1 &&
+    profile.firstname.length > 0 &&
+    profile.lastname.length > 0 &&
     ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1
     ));
 };

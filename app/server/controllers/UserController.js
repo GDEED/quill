@@ -55,12 +55,13 @@ function canRegister(email, password, callback){
         return callback(err);
       }
       for (var i = 0; i < emails.length; i++) {
-        if (validator.isEmail(email) && endsWith(emails[i], email)){
+        // if (validator.isEmail(email) && endsWith(emails[i], email)){
+        if (validator.isEmail(email)){
           return callback(null, true);
         }
       }
       return callback({
-        message: "Not a valid educational email."
+        message: "Not a valid email domain."
       }, false);
     });
 
@@ -259,6 +260,33 @@ UserController.getById = function (id, callback){
 };
 
 /**
+ * Get a user by email.
+ * @param  {String}   email    email
+ * @param  {Function} callback args(err, user)
+ */
+UserController.getByEmail = function(email, callback) {
+    User.findOneByEmail(email).exec(callback);
+};
+
+/**
+ * Verify a user by email.
+ * @param  {String}   email    email
+ * @param  {Function} callback args(err, user)
+ */
+UserController.verifyByEmail = function(email, callback){
+    User.findOneAndUpdate({
+      email: email.toLowerCase()
+    },{
+      $set: {
+        'verified': true
+      }
+    }, {
+      new: true
+    },
+    callback);
+};
+
+/**
  * Update a user's profile object, given an id and a profile.
  *
  * @param  {String}   id       Id of the user
@@ -316,6 +344,63 @@ UserController.updateProfileById = function (id, profile, callback){
 };
 
 /**
+ * Update a user's profile object, given an id and a profile.
+ *
+ * @param  {String}   email       Email of the user
+ * @param  {Object}   profile  Profile object
+ * @param  {Function} callback Callback with args (err, user)
+ */
+UserController.updateProfileByEmail = function (email, profile, callback){
+
+  // Validate the user profile, and mark the user as profile completed
+  // when successful.
+  User.validateProfile(profile, function(err){
+
+    if (err){
+      return callback({message: 'invalid profile'});
+    }
+
+    // Check if its within the registration window.
+    Settings.getRegistrationTimes(function(err, times){
+      if (err) {
+        callback(err);
+      }
+
+      var now = Date.now();
+
+      if (now < times.timeOpen){
+        return callback({
+          message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+        });
+      }
+
+      if (now > times.timeClose){
+        return callback({
+          message: "Sorry, registration is closed."
+        });
+      }
+    });
+
+    User.findOneAndUpdate({
+      email: email,
+      verified: true
+    },
+      {
+        $set: {
+          'lastUpdated': Date.now(),
+          'profile': profile,
+          'status.completedProfile': true
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+
+  });
+};
+
+/**
  * Update a user's confirmation object, given an id and a confirmation.
  *
  * @param  {String}   id            Id of the user
@@ -341,6 +426,50 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
     // You can only confirm acceptance if you're admitted and haven't declined.
     User.findOneAndUpdate({
       '_id': id,
+      'verified': true,
+      'status.admitted': true,
+      'status.declined': {$ne: true}
+    },
+      {
+        $set: {
+          'lastUpdated': Date.now(),
+          'confirmation': confirmation,
+          'status.confirmed': true,
+        }
+      }, {
+        new: true
+      },
+      callback);
+
+  });
+};
+
+/**
+ * Update a user's confirmation object, given an email and a confirmation.
+ *
+ * @param  {String}   email            Email of the user
+ * @param  {Object}   confirmation  Confirmation object
+ * @param  {Function} callback      Callback with args (err, user)
+ */
+UserController.updateConfirmationByEmail = function (email, confirmation, callback){
+
+  User.findOneByEmail(email).exec(function(err, user){
+
+    if(err || !user){
+      return callback(err);
+    }
+
+    // Make sure that the user followed the deadline, but if they're already confirmed
+    // that's okay.
+    if (Date.now() >= user.status.confirmBy && !user.status.confirmed){
+      return callback({
+        message: "You've missed the confirmation deadline."
+      });
+    }
+
+    // You can only confirm acceptance if you're admitted and haven't declined.
+    User.findOneAndUpdate({
+      'email': email,
       'verified': true,
       'status.admitted': true,
       'status.declined': {$ne: true}
@@ -429,7 +558,6 @@ UserController.getTeammates = function(id, callback){
       .find({
         teamCode: code
       })
-      .select('profile.name')
       .exec(callback);
   });
 };
@@ -457,7 +585,6 @@ UserController.createOrJoinTeam = function(id, code, callback){
   User.find({
     teamCode: code
   })
-  .select('profile.name')
   .exec(function(err, users){
     // Check to see if this team is joinable (< team max size)
     if (users.length >= maxTeamSize){
@@ -635,6 +762,32 @@ UserController.admitUser = function(id, user, callback){
     User
       .findOneAndUpdate({
         _id: id,
+        verified: true
+      },{
+        $set: {
+          'status.admitted': true,
+          'status.admittedBy': user.email,
+          'status.confirmBy': times.timeConfirm
+        }
+      }, {
+        new: true
+      },
+      callback);
+  });
+};
+/**
+ * [ADMIN ONLY]
+ *
+ * Admit a user.
+ * @param  {String}   email   Email of the admit
+ * @param  {String}   user     User doing the admitting
+ * @param  {Function} callback args(err, user)
+ */
+UserController.admitUser = function(email, user, callback){
+  Settings.getRegistrationTimes(function(err, times){
+    User
+      .findOneAndUpdate({
+        email: email,
         verified: true
       },{
         $set: {

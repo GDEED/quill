@@ -18,11 +18,15 @@ function calculateStats(){
         N: 0
       },
       schools: {},
-      year: {
-        '2016': 0,
-        '2017': 0,
-        '2018': 0,
-        '2019': 0,
+      ethnicity: {
+        'AI/A': 0,
+        'AS': 0,
+        'B': 0,
+        'HW/PI': 0,
+        'HS/LT': 0,
+        'W': 0,
+        'TWO': 0,
+        'N': 0,
       }
     },
 
@@ -68,8 +72,6 @@ function calculateStats(){
 
     reimbursementTotal: 0,
     reimbursementMissing: 0,
-
-    wantsHardware: 0,
 
     checkedIn: 0
   };
@@ -121,9 +123,6 @@ function calculateStats(){
         newStats.reimbursementMissing += user.confirmation.needsReimbursement &&
           !user.status.reimbursementGiven ? 1 : 0;
 
-        // Count the number of people who want hardware
-        newStats.wantsHardware += user.confirmation.wantsHardware ? 1 : 0;
-
         // Count schools
         if (!newStats.demo.schools[email]){
           newStats.demo.schools[email] = {
@@ -139,8 +138,8 @@ function calculateStats(){
         newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
 
         // Count graduation years
-        if (user.profile.graduationYear){
-          newStats.demo.year[user.profile.graduationYear] += 1;
+        if (user.profile.ethnicity){
+          newStats.demo.ethnicity[user.profile.ethnicity] += 1;
         }
 
         // Grab the team name if there is one

@@ -59,6 +59,12 @@ angular.module('reg')
         });
       },
 
+      adminJoinOrCreateTeam: function(code, user_id){
+        return $http.put(base + user_id + '/team', {
+          code: code
+        });
+      },
+
       leaveTeam: function(){
         return $http.delete(base + Session.getUserId() + '/team');
       },

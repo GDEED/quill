@@ -1,7 +1,19 @@
 #application {
-  #school .title {
+  #school .title,
+  #citizenship .title {
     text-align: left;
     text-transform: none;
     letter-spacing: 0;
+  }
+
+  div.checkboxes-container {
+      -webkit-columns: 2;
+      -moz-columns: 2;
+      columns: 2;
+
+      div.ui.checkbox {
+          display: block;
+          margin: 10px 0;
+      }
   }
 }
