@@ -40,7 +40,9 @@ angular.module('reg')
       if (currentExperiences) {
           for (var i in currentExperiences) {
               var x = $scope.exps.filter((exp) => exp.name == currentExperiences[i])[0];
-              x.selected = true;
+              if (x) {
+                  x.selected = true;
+              }
           }
       } else {
           $scope.selectedUser.profile.experiences = [];

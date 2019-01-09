@@ -225,6 +225,7 @@ angular.module('reg')
       }
 
       $scope.rowClass = function(user) {
+        console.log(user);
         if (user.admin){
           return 'admin';
         }

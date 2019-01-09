@@ -50,7 +50,6 @@ gulp.task('js', function () {
 });
 
 gulp.task('sass', function() {
-  console.log('sup');
   gulp.src('app/client/stylesheets/site.scss')
     .pipe(sass())
       .on('error', sass.logError)
@@ -60,7 +59,6 @@ gulp.task('sass', function() {
 
 gulp.task('build', ['js', 'sass'], function() {
   // Yup, build the js and sass.
-  console.log('yup');
 });
 
 gulp.task('watch', ['js', 'sass'], function() {
