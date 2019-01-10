@@ -290,16 +290,16 @@ angular.module('reg')
                 value: user.profile.description
               },{
                 name: 'Github',
-                value: user.confirmation.github
+                value: user.profile.github
               },{
                 name: 'Twitter',
-                value: user.confirmation.twitter
+                value: user.profile.twitter
               },{
                 name: 'Facebook',
-                value: user.confirmation.facebook
+                value: user.profile.facebook
               },{
                 name: 'Website',
-                value: user.confirmation.website
+                value: user.profile.website
               },{
                 name: 'Essay',
                 value: user.profile.essay

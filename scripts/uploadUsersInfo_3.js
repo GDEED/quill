@@ -16,7 +16,7 @@ csv().fromFile('confirmations.csv')
     var count = 0;
     var userTotal = 446;
     for (var user of usersJSON) {
-        var userEmail = user['email'];
+        var userEmail = user['email'].toLowerCase();
 
         if (!userSet.hasOwnProperty(userEmail)) {
             userSet[userEmail] = true;

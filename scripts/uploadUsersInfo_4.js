@@ -15,10 +15,11 @@ var userEmailArray = fs.readFileSync('emails.txt').toString().split('\n');
 var userSet = {};
 
 userEmailArray.forEach(function (userEmail) {
-  if (!userSet.hasOwnProperty(userEmail)) {
-      userSet[userEmail] = true;
+    var lowerEmail = userEmail.toLowerCase();
+  if (!userSet.hasOwnProperty(lowerEmail)) {
+      userSet[lowerEmail] = true;
       UserController
-        .admitUserWithEmail( userEmail, adminUser, function(err) {
+        .admitUserWithEmail( lowerEmail, adminUser, function(err) {
             if(err) {
                 return console.log(err);
             }
