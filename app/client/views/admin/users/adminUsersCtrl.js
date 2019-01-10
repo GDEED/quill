@@ -112,8 +112,6 @@ angular.module('reg')
       $scope.acceptUser = function($event, user, index) {
         $event.stopPropagation();
 
-        console.log(user);
-
         swal({
           buttons: {
             cancel: {
@@ -225,7 +223,6 @@ angular.module('reg')
       }
 
       $scope.rowClass = function(user) {
-        console.log(user);
         if (user.admin){
           return 'admin';
         }

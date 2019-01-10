@@ -18,7 +18,7 @@ userEmailArray.forEach(function (userEmail) {
   if (!userSet.hasOwnProperty(userEmail)) {
       userSet[userEmail] = true;
       UserController
-        .admitUser( userEmail, adminUser, function(err) {
+        .admitUserWithEmail( userEmail, adminUser, function(err) {
             if(err) {
                 return console.log(err);
             }
