@@ -44,12 +44,12 @@ csv().fromFile('confirmations.csv')
               essay: user['motives'],
 
               experiences: [
-                  user['360video'], user['unity'], user['vive'], user['unrealEngine'],
-                  user['googleVR'], user['oculusRift'], user['vuforia'], user['arCore'],
-                  user['webVR'], user['magicLeap'], user['steamOpenVR'], user['microsoftHololens'],
-                  user['cryEngine'], user['sonyPlaystationVR'], user['vivePro'], user['samsungGearVr'],
-                  user['oculusGo'], user['meta2Ar'], user['appleARKit'], user['nativeOpenGL'],
-                  user['googleTango'], user['WayRay'], user['other']
+                  (user['360video'] == '360video' ? '360 Video' : ''), (user['unity'] == 'unity' ? 'Unity' : ''), (user['vive'] == 'vive' ? 'Vive' : ''), (user['unrealEngine'] == 'unrealEngine' ? 'Unreal Engine' : ''),
+                  (user['googleVR'] == 'googleVR' ? 'Google VR (Cardboard / Daydream)' : ''), (user['oculusRift'] == 'oculusRift' ? 'Oculus Rift' : ''), (user['vuforia'] == 'vuforia' ? 'Vuforia' : ''), (user['arCore'] == 'arCore' ? 'Google ARCore' : ''),
+                  (user['webVR'] == 'webVR' ? 'WebVR / A-Frame' : ''), (user['magicLeap'] == 'magicLeap' ? 'MagicLeap' : ''), (user['steamOpenVR'] == 'steamOpenVR' ? 'Steam OpenVR (HTC Vive)' : ''), user['microsoftHololens'],
+                  (user['cryEngine'] == 'cryEngine' ? 'CryEngine' : ''), (user['sonyPlaystationVR'] == 'sonyPlaystationVR' ? 'Sony Playstation VR' : ''), (user['vivePro'] == 'vivePro' ? 'Vive Pro' : ''), (user['samsungGearVR'] == 'samsungGearVR' ? 'Samsung Gear VR' : ''),
+                  (user['oculusGo'] == 'oculusGo' ? 'Oculus Go' : ''), (user['meta2Ar'] == 'meta2Ar' ? 'Meta 2 AR' : ''), (user['appleARKit'] == 'appleARKit' ? 'Apple ARKit' : ''), (user['nativeOpenGL'] == 'nativeOpenGL' ? 'Native (OpenGL Vulkan)' : ''),
+                  (user['googleTango'] == 'googleTango' ? 'Google Tango' : ''), (user['WayRay'] == 'WayRay' ? 'WayRay' : ''), (user['other'] == 'other' ? 'Other' : '')
               ],
 
               referral: 'wordOfMouth',
