@@ -2,6 +2,7 @@
 require('dotenv').load();
 var mongoose        = require('mongoose');
 var database        = process.env.DATABASE || process.env.MONGODB_URI || { url: "mongodb://localhost:27017"};
+console.log(database);
 mongoose.connect(database.url);
 
 var UserController = require('../app/server/controllers/UserController');
