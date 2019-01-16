@@ -33,7 +33,17 @@ angular.module('reg')
         { name: 'Vegan', selected: false }
       ];
       // Selected boxes
-      $scope.user.confirmation.dietaryRestrictions = [];
+      var currentRests = $scope.user.confirmation.dietaryRestrictions;
+      if (currentRests) {
+          for (var i in currentRests) {
+              var x = $scope.rests.filter((rests) => rests.name == currentRests[i])[0];
+              if (x) {
+                  x.selected = true;
+              }
+          }
+      } else {
+          $scope.user.confirmation.dietaryRestrictions = [];
+      }
       // Helper method to get selected boxes
       $scope.selectedRests = function selectedRests() {
         return filterFilter($scope.rests, { selected: true });
@@ -70,6 +80,15 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please enter a phone number.'
+                }
+              ]
+            },
+            github: {
+              identifier: 'github',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your github.'
                 }
               ]
             },

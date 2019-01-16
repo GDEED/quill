@@ -58,6 +58,37 @@ angular.module('reg')
         });
       }, true);
 
+      // this is for dietary Checkboxes
+      $scope.rests = [
+        { name: 'None', selected: true },
+        { name: 'Gluten Free', selected: false },
+        { name: 'Lactose Intolerant', selected: false },
+        { name: 'Vegetarian', selected: false },
+        { name: 'Vegan', selected: false }
+      ];
+      // Selected boxes
+      var currentRests = $scope.selectedUser.confirmation.dietaryRestrictions;
+      if (currentRests) {
+          for (var i in currentRests) {
+              var x = $scope.rests.filter((rests) => rests.name == currentRests[i])[0];
+              if (x) {
+                  x.selected = true;
+              }
+          }
+      } else {
+          $scope.selectedUser.confirmation.dietaryRestrictions = [];
+      }
+      // Helper method to get selected boxes
+      $scope.selectedRests = function selectedRests() {
+        return filterFilter($scope.rests, { selected: true });
+      };
+      // Watch boxes for changes
+      $scope.$watch('rests|filter:{selected:true}', function (nv) {
+        $scope.selectedUser.confirmation.dietaryRestrictions = nv.map(function (rest) {
+          return rest.name;
+        });
+      }, true);
+
       $scope.updateTeam = function(){
         UserService
           .adminJoinOrCreateTeam($scope.selectedUser.teamCode, $scope.selectedUser._id)
