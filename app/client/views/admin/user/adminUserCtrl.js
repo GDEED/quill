@@ -60,7 +60,7 @@ angular.module('reg')
 
       // this is for dietary Checkboxes
       $scope.rests = [
-        { name: 'None', selected: true },
+        { name: 'None', selected: false },
         { name: 'Gluten Free', selected: false },
         { name: 'Lactose Intolerant', selected: false },
         { name: 'Vegetarian', selected: false },
