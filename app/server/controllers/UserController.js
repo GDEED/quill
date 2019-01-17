@@ -813,7 +813,9 @@ UserController.admitUserWithEmail = function(email, user, callback){
 UserController.checkInById = function(id, user, callback){
   User.findOneAndUpdate({
     _id: id,
-    verified: true
+    verified: true,
+    'status.admitted': true,
+    'status.confirmed': true
   },{
     $set: {
       'status.checkedIn': true,
@@ -857,8 +859,8 @@ UserController.checkOutById = function(id, user, callback){
  */
 UserController.makeAdminById = function(id, user, callback){
   User.findOneAndUpdate({
-    _id: id,
-    verified: true
+    _id: id
+    // verified: true
   },{
     $set: {
       'admin': true
@@ -879,8 +881,8 @@ UserController.makeAdminById = function(id, user, callback){
  */
 UserController.removeAdminById = function(id, user, callback){
   User.findOneAndUpdate({
-    _id: id,
-    verified: true
+    _id: id
+    // verified: true
   },{
     $set: {
       'admin': false

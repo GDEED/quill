@@ -89,12 +89,17 @@ angular.module('reg')
           })
           .then(value => {
             if (!value) {
+              swal("Warning",  "Unable to checkin user. Check they've been admitted and registered", "warning");
               return;
             }
 
             UserService
               .checkIn(user._id)
               .then(response => {
+                if (!response.data) {
+                    swal("Warning",  "Unable to checkin user. Check they've been admitted and registered", "warning");
+                    return;
+                }
                 $scope.users[index] = response.data;
                 swal("Accepted", response.data.profile.firstname + " " + response.data.profile.lastname + " has been checked in.", "success");
               });
@@ -158,12 +163,17 @@ angular.module('reg')
             icon: "warning"
           }).then(value => {
             if (!value) {
+              swal("Warning",  "Unable to admit user. Check they've verified their email.", "warning");
               return;
             }
 
             UserService
               .admitUser(user._id)
               .then(response => {
+                if (!response.data) {
+                    swal("Warning",  "Unable to admit user. Check they've verified their email.", "warning");
+                    return;
+                }
                 $scope.users[index] = response.data;
                 swal("Accepted", response.data.profile.firstname + " " + response.data.profile.lastname + ' has been admitted.', "success");
               });
